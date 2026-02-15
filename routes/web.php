@@ -5,10 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::resource('book', BookController::class);
 
 Route::get('/' , function() {
@@ -18,11 +14,6 @@ Route::get('/' , function() {
 Route::get('/contact' , function() {
     return view("contact");
 })->name("contact");
-
-
-Route::get('/books' , function() {
-    return view("books");
-})->name("books");
 
 Route::get('/about' , function() {
     return view("about");
@@ -42,11 +33,10 @@ Route::delete('/destroyBook/{id}', [BookController::class, 'destroy'])->name('de
 // edit book
 Route::get('/editBook/{id}/edit', [BookController::class, 'edit'])->name('book.edit');
 Route::put('/books/{id}', [BookController::class, 'update'])->name('book.update');
-
-
-
-
-
+// send books and pagination to search page
+Route::get('/books/search',[BookController::class, 'search'])->name('search');
+//
+Route::get('/books/search/find',[BookController::class, 'find'])->name('search.find');
 
 
 

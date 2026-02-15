@@ -10,7 +10,7 @@
                         <div class="ml-10 flex items-baseline space-x-4">
                             <a href="{{ route('index') }}" class="text-gray-600 hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Accueil</a>
                             <a href="{{ route('bookIndex') }}" class="text-gray-600 hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Livres</a>
-                            <a href="{{ route('books') }}" class="text-gray-600 hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Recherche</a>
+                            <a href="{{ route('search') }}" class="text-gray-600 hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Recherche</a>
                             <a href="{{ route('about') }}" class="text-gray-600 hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">A propos</a>
                             <a href="{{ route('contact') }}" class="text-gray-600 hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
                         </div>
