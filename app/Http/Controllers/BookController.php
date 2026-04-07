@@ -2,53 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Log;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
     private function getPaginatedBooks()
-{
-    return Book::paginate(8);
-}
-
-public function index()
     {
-    $books = Book::paginate(10);
-    Log::info('Navigated to all books page');
-
-    view()->share('books',$books);
-
-    return view('book.index', [
-        'books' => $this->getPaginatedBooks()
-    ]);
+        return Book::paginate(8);
     }
 
-public function search()
-{
-     return view('books', [
-        'books' => $this->getPaginatedBooks()
-    ]);
-}
-
-public function find(Request $request ){
-    switch($request->input('sort_by','')){
-        case 'prix':
-            $books = Book::orderBy('prix')->paginate(10)->withQueryString();
-            break;
-        case'titre':
-            $books =  Book::orderBy('titre')->paginate(10)->withQueryString();
-            break;
-        case'date':
-            $books =  Book::latest()->paginate(10)->withQueryString();
-            break;
-        default:
-            $books = Book::paginate(10)->withQueryString();
-            break;
+    public function index()
+    {
+        Log::info('Navigated to all books page');
+        return view('book.index', [
+            'books' => $this->getPaginatedBooks()
+        ]);
     }
-    return view('books',compact('books'));
-}
+
+    public function search()
+    {
+        return view('books', [
+            'books' => $this->getPaginatedBooks()
+        ]);
+    }
+
+    public function find(Request $request)
+    {
+        switch ($request->input('sort_by', '')) {
+            case 'prix':
+                $books = Book::orderBy('prix')->paginate(10)->withQueryString();
+                break;
+            case 'titre':
+                $books = Book::orderBy('titre')->paginate(10)->withQueryString();
+                break;
+            case 'date':
+                $books = Book::latest()->paginate(10)->withQueryString();
+                break;
+            default:
+                $books = Book::paginate(10)->withQueryString();
+                break;
+        }
+        return view('books', compact('books'));
+    }
 
     public function create()
     {
@@ -83,7 +80,7 @@ public function find(Request $request ){
         }
 
         $book->save();
-        
+
         Log::info('Book added successfully', ['book_id' => $book->id]);
 
         return redirect()->route('book.index')->with('success', 'Livre ajouté avec succès.');
@@ -92,21 +89,21 @@ public function find(Request $request ){
     public function show(string $id)
     {
         $book = Book::findOrFail($id);
-        
+
         Log::info('Viewing book details', [
-            "book_id" => $book->id 
+            "book_id" => $book->id
         ]);
-        
+
         return view('book.show', compact('book'));
     }
 
     public function edit(string $id)
     {
         $book = Book::findOrFail($id);
-        
+
         Log::info('Editing book', ["book_id" => $book->id]);
 
-        return view('book.edit', compact('book')); 
+        return view('book.edit', compact('book'));
     }
 
     public function update(Request $request, $id)
@@ -133,11 +130,11 @@ public function find(Request $request ){
                 unlink(public_path('covers/' . $book->cover));
             }
             $image = $request->file('cover');
-            $imageName = time().'_'.$image->getClientOriginalName();
+            $imageName = time() . '_' . $image->getClientOriginalName();
             $image->move(public_path('covers'), $imageName);
             $book->cover = $imageName;
         }
-        
+
         $book->save();
 
         Log::info('Book updated successfully', ['book_id' => $id]);
@@ -148,13 +145,13 @@ public function find(Request $request ){
     public function destroy(string $id)
     {
         $book = Book::findOrFail($id);
-        
+
         if ($book->cover && $book->cover != 'no_cover.jpg') {
             if (file_exists(public_path('covers/' . $book->cover))) {
                 unlink(public_path('covers/' . $book->cover));
             }
         }
-        
+
         $book->delete();
 
         Log::warning('Book deleted', ['book_id' => $id]);
