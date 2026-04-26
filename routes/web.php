@@ -3,23 +3,23 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
-
+use App\Http\Controllers\changeLangController;
 
 Route::resource('book', BookController::class);
 
-Route::get('/' , function() {
+Route::get('/', function () {
     return view("index");
 })->name("index");
 
-Route::get('/contact' , function() {
+Route::get('/contact', function () {
     return view("contact");
 })->name("contact");
 
-Route::get('/about' , function() {
+Route::get('/about', function () {
     return view("about");
 })->name("about");
 
-Route::get('/books/details' , function() {
+Route::get('/books/details', function () {
     return view("books.details");
 })->name("details");
 
@@ -34,10 +34,14 @@ Route::delete('/destroyBook/{id}', [BookController::class, 'destroy'])->name('de
 Route::get('/editBook/{id}/edit', [BookController::class, 'edit'])->name('book.edit');
 Route::put('/books/{id}', [BookController::class, 'update'])->name('book.update');
 // send books and pagination to search page
-Route::get('/books/search',[BookController::class, 'search'])->name('search');
+Route::get('/books/search', [BookController::class, 'search'])->name('search');
 //
-Route::get('/books/search/find',[BookController::class, 'find'])->name('search.find');
+Route::get('/books/search/find', [BookController::class, 'find'])->name('search.find');
 
+
+
+//change languages 
+Route::get('/lang/{locale}', [changeLangController::class, 'switch']);
 
 
 
@@ -53,4 +57,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

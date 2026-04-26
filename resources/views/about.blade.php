@@ -12,15 +12,15 @@
                     </div>
                     <div>
                         <div class="text-base leading-7 text-gray-700 lg:max-w-lg">
-                            <p class="text-base font-semibold leading-7 text-blue-600">Ce que nous faisons</p>
-                            <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">36 personnes talentueuses travaillent pour vous rendre heureux</h1>
+                            <p class="text-base font-semibold leading-7 text-blue-600">{{ __('Ce que nous faisons') }}</p>
+                            <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{{ __('36 personnes talentueuses travaillent pour vous rendre heureux') }}</h1>
                             <div class="max-w-xl">
-                                <p class="mt-6">Mollit anim laborum duis au dolor in voluptate velit ess cillum dolore eu lore dsu quality mollit anim laborumuis au dolor in voluptate velit cillum.</p>
-                                <p class="mt-8">Mollit anim laborum.Duis aute irufg dhjkolohr in re voluptate velit esscillumlore eu quife nrulla parihatur. Excghcepteur signjnt occa cupidatat non inulpadeserunt mollit aboru. temnthp incididbnt ut labore mollit anim laborum suis aute.</p>
+                                <p class="mt-6">{{ __('Mollit anim laborum duis au dolor in voluptate velit ess cillum dolore eu lore dsu quality mollit anim laborumuis au dolor in voluptate velit cillum.') }}</p>
+                                <p class="mt-8">{{ __('Mollit anim laborum.Duis aute irufg dhjkolohr in re voluptate velit esscillumlore eu quife nrulla parihatur. Excghcepteur signjnt occa cupidatat non inulpadeserunt mollit aboru. temnthp incididbnt ut labore mollit anim laborum suis aute.') }}</p>
                             </div>
                         </div>
                         <div class="mt-10 flex">
-                            <a href="contact.html" class="rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500">Contacter nous</a>
+                            <a href="{{ route('contact') }}" class="rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500">{{ __('Contacter nous') }}</a>
                         </div>
                     </div>
                 </div>

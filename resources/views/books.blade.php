@@ -4,7 +4,7 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="text-4xl font-extrabold text-gray-900">
-                Rechercher un Livre
+                {{ __('Rechercher un Livre') }}
             </h2>
         </div>
 
@@ -14,16 +14,16 @@
             <aside class="col-span-1">
                 <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-md space-y-8">
                     <h4 class="text-xl font-semibold text-gray-800 border-b border-gray-200 pb-4">
-                        Filtrer les livres
+                        {{ __('Filtrer les livres') }}
                     </h4>
 
                     <div>
-                        <h5 class="font-semibold text-gray-800 mb-3">Catégories</h5>
+                        <h5 class="font-semibold text-gray-800 mb-3">{{ __('Catégories') }}</h5>
                         <select name="categorie" class="w-full bg-gray-50 border border-gray-300 rounded-md text-gray-800 text-sm p-2.5">
-                            <option value="">Tout</option>
-                            <option value="Documentaires">Documentaires</option>
-                            <option value="Poésie">Poésie</option>
-                            <option value="Mangas">Mangas</option>
+                            <option value="">{{ __('Tout') }}</option>
+                            <option value="Documentaires">{{ __('Documentaires') }}</option>
+                            <option value="Poésie">{{ __('Poésie') }}</option>
+                            <option value="Mangas">{{ __('Mangas') }}</option>
                         </select>
                     </div>
                 </div>
@@ -35,18 +35,18 @@
                 <!-- Top Bar -->
                 <div class="flex items-center justify-between mb-6 bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
                     <span class="text-gray-600">
-                        {{ $books->total() }} Livres trouvés
+                        {{ $books->total() }} {{ __('Livres trouvés') }}
                     </span>
                     <form method="GET" action="{{ route('search.find') }}">
-                            <h5 style="display: inline-block">Trier par :</h5>
+                            <h5 style="display: inline-block">{{ __('Trier par :') }}</h5>
                             <select name="sort_by"
                                 onchange="this.form.submit()"
                                 class="bg-gray-50 border border-gray-300 rounded-md text-gray-800 focus:ring-blue-500 focus:border-blue-500 text-sm p-2">
 
-                                <option value="">None</option>
-                                <option value="date">Date</option>
-                                <option value="prix">Prix</option>
-                                <option value="titre">Titre</option>
+                                <option value="">{{ __('None') }}</option>
+                                <option value="date">{{ __('Date') }}</option>
+                                <option value="prix">{{ __('Prix') }}</option>
+                                <option value="titre">{{ __('Titre') }}</option>
                             </select>
                     </form>
                 </div>
@@ -70,7 +70,7 @@
                                         {{-- Designation --}}
                                         <a href="{{ route('books.show', $book->id) }}"
                                            class="text-lg font-semibold text-gray-900 hover:text-blue-600">
-                                            {{ $book->designation ?? 'Sans titre' }}
+                                             {{ $book->designation ?? __('Sans titre') }}
                                         </a>
 
                                         {{-- Infos --}}
@@ -81,7 +81,7 @@
                                           
 
                                            
-                                                <li>par {{ $book->auteur }}</li>
+                                                <li>{{ __('par') }} {{ $book->auteur }}</li>
                                           
 
                                            
@@ -105,7 +105,7 @@
                                 <div class="text-right">
                                     <a href="{{ route('books.show', $book->id) }}"
                                        class="text-blue-600 hover:underline block mb-2">
-                                        Détails
+                                        {{ __('Détails') }}
                                     </a>
 
                                     {{-- Prix --}}
