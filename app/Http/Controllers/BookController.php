@@ -26,46 +26,12 @@ class BookController extends Controller
 
     public function search()
     {
-        $categories = \App\Models\Caterories::all();
-        $tags = \App\Models\Tags::all();
-        return view('books', [
-            'books' => $this->getPaginatedBooks(),
-            'categories' => $categories,
-            'tags' => $tags
-        ]);
+        return view('books');
     }
 
     public function find(Request $request)
     {
-        $query = Book::query();
-
-        // Apply filters
-        if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
-        }
-
-        if ($request->filled('tag_id')) {
-            $query->where('tag_id', $request->tag_id);
-        }
-
-        // Apply sorting
-        switch ($request->input('sort_by', '')) {
-            case 'prix':
-                $query->orderBy('prix');
-                break;
-            case 'titre':
-                $query->orderBy('designation'); // Changed from 'titre' to 'designation' based on schema
-                break;
-            case 'date':
-                $query->latest();
-                break;
-        }
-
-        $books = $query->paginate(10)->withQueryString();
-        $categories = \App\Models\Caterories::all();
-        $tags = \App\Models\Tags::all();
-
-        return view('books', compact('books', 'categories', 'tags'));
+        return view('books');
     }
 
     public function create()
