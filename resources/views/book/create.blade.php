@@ -41,7 +41,7 @@
 
                 <div>
                     <label for="prix" class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ __('Prix (€)') }} *
+                        {{ __('Prix (MAD)') }} *
                     </label>
                     <input type="number" 
                            id="prix" 

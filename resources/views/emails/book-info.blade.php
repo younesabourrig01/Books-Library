@@ -22,7 +22,7 @@
             <h2 class="book-title">{{ $book->designation }}</h2>
             <p><strong>{{ __('Auteur') }}:</strong> {{ $book->auteur }}</p>
             <p><strong>{{ __('Éditeur') }}:</strong> {{ $book->editeur }}</p>
-            <p><strong>{{ __('Prix') }}:</strong> {{ number_format($book->prix, 2) }} €</p>
+            <p><strong>{{ __('Prix') }}:</strong> {{ number_format($book->prix, 2) }} MAD</p>
             
             <div style="margin: 15px 0;">
                 <span class="badge badge-category">{{ $book->category->name ?? 'N/A' }}</span>

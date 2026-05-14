@@ -75,7 +75,7 @@
                             <p class="text-sm text-gray-500 mb-1">{{ __('Prix actuel') }}</p>
                             <div class="flex items-baseline">
                                 <span class="text-4xl font-black text-gray-900">{{ number_format($book->prix, 2) }}</span>
-                                <span class="text-xl font-bold text-gray-900 ml-1">€</span>
+                                <span class="text-xl font-bold text-gray-900 ml-1">MAD</span>
                             </div>
                         </div>
 

@@ -134,7 +134,7 @@
                                     {{-- Prix --}}
                                     
                                         <span class="block text-lg font-semibold text-gray-900">
-                                            {{ number_format($book->prix, 2) }} €
+                                            {{ number_format($book->prix, 2) }} MAD
                                         </span>
                                   
                                 </div>

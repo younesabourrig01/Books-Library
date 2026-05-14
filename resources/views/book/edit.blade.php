@@ -43,7 +43,7 @@
 
                 <div>
                     <label for="prix" class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ __('Nouveau Prix (€)') }} *
+                        {{ __('Nouveau Prix (MAD)') }} *
                     </label>
                     <input type="number" 
                            value="{{ old('prix', $book->prix) }}"
