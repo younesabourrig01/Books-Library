@@ -15,8 +15,8 @@
                             <p class="text-base font-semibold leading-7 text-blue-600">{{ __('Ce que nous faisons') }}</p>
                             <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{{ __('36 personnes talentueuses travaillent pour vous rendre heureux') }}</h1>
                             <div class="max-w-xl">
-                                <p class="mt-6">{{ __('Mollit anim laborum duis au dolor in voluptate velit ess cillum dolore eu lore dsu quality mollit anim laborumuis au dolor in voluptate velit cillum.') }}</p>
-                                <p class="mt-8">{{ __('Mollit anim laborum.Duis aute irufg dhjkolohr in re voluptate velit esscillumlore eu quife nrulla parihatur. Excghcepteur signjnt occa cupidatat non inulpadeserunt mollit aboru. temnthp incididbnt ut labore mollit anim laborum suis aute.') }}</p>
+                                <p class="mt-6">{{ __('Nous sommes une équipe passionnée par la culture et le partage du savoir. Notre mission est de rendre la lecture accessible à tous grâce à notre plateforme numérique moderne.') }}</p>
+                                <p class="mt-8">{{ __('Depuis notre centre à Mirleft, nous travaillons chaque jour pour enrichir notre catalogue et offrir une expérience utilisateur fluide et agréable à tous les amoureux des livres.') }}</p>
                             </div>
                         </div>
                         <div class="mt-10 flex">

@@ -58,7 +58,7 @@
                                 onchange="this.form.submit()"
                                 class="bg-gray-50 border border-gray-300 rounded-md text-gray-800 focus:ring-blue-500 focus:border-blue-500 text-sm p-2">
 
-                                <option value="">{{ __('None') }}</option>
+                                <option value="">{{ __('Aucun') }}</option>
                                 <option value="date" {{ request('sort_by') == 'date' ? 'selected' : '' }}>{{ __('Date') }}</option>
                                 <option value="prix" {{ request('sort_by') == 'prix' ? 'selected' : '' }}>{{ __('Prix') }}</option>
                                 <option value="titre" {{ request('sort_by') == 'titre' ? 'selected' : '' }}>{{ __('Titre') }}</option>
