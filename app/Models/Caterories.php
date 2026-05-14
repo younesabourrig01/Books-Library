@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Caterories extends Model
 {
-    //
+    protected $fillable = ['name'];
 }

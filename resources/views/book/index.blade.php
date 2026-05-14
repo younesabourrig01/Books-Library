@@ -15,7 +15,7 @@
                         <div class="aspect-[3/4] overflow-hidden bg-gray-100">
                             <img src="/covers/{{ $book->cover }}" alt="cover"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                onerror="this.src='{{ asset('covers/book-coverplaceholder.png') }}'">
+                                onerror="this.src='{{ asset('covers/no_cover.jpg') }}'">
                         </div>
 
                         <div class="p-5 space-y-4">

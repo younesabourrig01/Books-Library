@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('designation')->unique()->require();
+            $table->string('designation')->unique();
             $table->text('description');
-            $table->string('type')->default('Texte');
+            $table->foreignId('tag_id')->nullable()->constrained('tags')->onDelete('cascade');
             $table->string('langue')->default('Francais');
             $table->string('editeur')->default('Anonyme');
-            $table->string('categorie')->default('Nouveau');
+            $table->foreignId('category_id')->nullable()->constrained('caterories')->onDelete('cascade');
             $table->double('prix')->default('0');
             $table->string('auteur')->default('Anonyme');
             $table->string('cover')->default('no_cover.jpg');

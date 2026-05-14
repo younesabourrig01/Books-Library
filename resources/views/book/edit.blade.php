@@ -35,9 +35,9 @@
                     <label for="editeur" class="block text-sm font-medium text-gray-700 mb-1">
                         {{ __('Nouveau Éditeur') }}
                     </label>
-                    <input type="text" 
-                           value="{{ old('editeur', $book->auteur) }}" 
-                           name="editeur"
+                     <input type="text" 
+                            value="{{ old('editeur', $book->editeur) }}" 
+                            name="editeur"
                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
@@ -54,16 +54,35 @@
                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
-               <!-- Type -->
+                <!-- Tag -->
                 <div>
-                    <label for="type" class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ __('Nouveau Type de Livre') }} *
+                    <label for="tag_id" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ __('Tag du Livre') }}
                     </label>
-                    <input type="text" 
-                           value="{{ old('type', $book->type) }}"
-                           name="type" 
-                           required
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <select name="tag_id" id="tag_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">{{ __('Choisir un tag') }}</option>
+                        @foreach($tags as $tag)
+                            <option value="{{ $tag->id }}" {{ old('tag_id', $book->tag_id) == $tag->id ? 'selected' : '' }}>
+                                {{ $tag->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Category -->
+                <div>
+                    <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ __('Catégorie du Livre') }}
+                    </label>
+                    <select name="category_id" id="category_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">{{ __('Choisir une catégorie') }}</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ old('category_id', $book->category_id) == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
                 <div>
                     <label for="description" class="block text-sm font-medium text-gray-700 mb-1">

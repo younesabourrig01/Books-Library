@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Book;
 use Illuminate\Database\Seeder;
 
 class BookSeeder extends Seeder
@@ -12,7 +12,7 @@ class BookSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Book::factory()->count(40)->create();
-
+        // Create 50 random books using the factory
+        Book::factory(20)->create();
     }
 }

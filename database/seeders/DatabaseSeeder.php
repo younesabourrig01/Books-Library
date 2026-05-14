@@ -9,8 +9,13 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder 
 { 
 use WithoutModelEvents; 
-public function run() 
-{ 
-User::factory(10)->create(); 
-} 
+    public function run() 
+    { 
+        User::factory(10)->create(); 
+        $this->call([
+            CategorySeeder::class,
+            TagSeeder::class,
+            BookSeeder::class,
+        ]);
+    } 
 }

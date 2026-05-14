@@ -23,34 +23,54 @@ class BookController extends Controller
 
     public function search()
     {
+        $categories = \App\Models\Caterories::all();
+        $tags = \App\Models\Tags::all();
         return view('books', [
-            'books' => $this->getPaginatedBooks()
+            'books' => $this->getPaginatedBooks(),
+            'categories' => $categories,
+            'tags' => $tags
         ]);
     }
 
     public function find(Request $request)
     {
+        $query = Book::query();
+
+        // Apply filters
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('tag_id')) {
+            $query->where('tag_id', $request->tag_id);
+        }
+
+        // Apply sorting
         switch ($request->input('sort_by', '')) {
             case 'prix':
-                $books = Book::orderBy('prix')->paginate(10)->withQueryString();
+                $query->orderBy('prix');
                 break;
             case 'titre':
-                $books = Book::orderBy('titre')->paginate(10)->withQueryString();
+                $query->orderBy('designation'); // Changed from 'titre' to 'designation' based on schema
                 break;
             case 'date':
-                $books = Book::latest()->paginate(10)->withQueryString();
-                break;
-            default:
-                $books = Book::paginate(10)->withQueryString();
+                $query->latest();
                 break;
         }
-        return view('books', compact('books'));
+
+        $books = $query->paginate(10)->withQueryString();
+        $categories = \App\Models\Caterories::all();
+        $tags = \App\Models\Tags::all();
+
+        return view('books', compact('books', 'categories', 'tags'));
     }
 
     public function create()
     {
         Log::info('Navigated to create new book form');
-        return view('book.create');
+        $categories = \App\Models\Caterories::all();
+        $tags = \App\Models\Tags::all();
+        return view('book.create', compact('categories', 'tags'));
     }
 
     public function store(Request $request)
@@ -59,7 +79,8 @@ class BookController extends Controller
             'designation' => 'required|string|max:255',
             'auteur' => 'required|string|max:255',
             'prix' => 'required|numeric|min:0',
-            'type' => 'required|string|max:255',
+            'tag_id' => 'nullable|exists:tags,id',
+            'category_id' => 'nullable|exists:caterories,id',
             'description' => 'nullable|string',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -69,7 +90,8 @@ class BookController extends Controller
         $book->auteur = $request->input('auteur');
         $book->editeur = $request->input('editeur');
         $book->prix = $request->input('prix');
-        $book->type = $request->input('type');
+        $book->tag_id = $request->input('tag_id');
+        $book->category_id = $request->input('category_id');
         $book->description = $request->input('description');
 
         if ($request->hasFile('cover') && $request->file('cover')->isValid()) {
@@ -88,7 +110,7 @@ class BookController extends Controller
 
     public function show(string $id)
     {
-        $book = Book::findOrFail($id);
+        $book = Book::with(['category', 'tag'])->findOrFail($id);
 
         Log::info('Viewing book details', [
             "book_id" => $book->id
@@ -100,10 +122,12 @@ class BookController extends Controller
     public function edit(string $id)
     {
         $book = Book::findOrFail($id);
+        $categories = \App\Models\Caterories::all();
+        $tags = \App\Models\Tags::all();
 
         Log::info('Editing book', ["book_id" => $book->id]);
 
-        return view('book.edit', compact('book'));
+        return view('book.edit', compact('book', 'categories', 'tags'));
     }
 
     public function update(Request $request, $id)
@@ -122,7 +146,8 @@ class BookController extends Controller
         $book->auteur = $request->auteur;
         $book->editeur = $request->editeur;
         $book->prix = $request->prix;
-        $book->type = $request->type;
+        $book->tag_id = $request->tag_id;
+        $book->category_id = $request->category_id;
         $book->description = $request->description;
 
         if ($request->hasFile('cover')) {

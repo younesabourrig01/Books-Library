@@ -15,12 +15,15 @@ class BookApiController extends Controller
      */
     public function index()
     {
-            Log::info('API: show all books');
+        Log::info('API: show all books');
         $books = Book::all();
-        return response()->json(["success" => true , 
-        "data" => $books
-    ],200
-        ) ;
+        return response()->json(
+            [
+                "success" => true,
+                "data" => $books
+            ],
+            200
+        );
     }
 
     /**
@@ -28,7 +31,7 @@ class BookApiController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         log::info("try to add a book");
         $request->validate([
             "designation" => 'required|string|max:255',
@@ -45,52 +48,53 @@ class BookApiController extends Controller
         try {
             if ($request->hasFile('cover')) {
                 $coverPath = $request->file('cover')->store('covers', 'public');
-                Log::info("photo added sucefully" , ["path" => $coverPath]);
+                Log::info("photo added sucefully", ["path" => $coverPath]);
 
-        } else {
-                $coverPath =  'no_banner.jpg';
+            } else {
+                $coverPath = 'no_banner.jpg';
                 Log::info("use the default image");
-}
+            }
 
-$book = Book::create([
-    'designation' => $request->designation,
-    'auteur' => $request->auteur,
-    'description' => $request->description,
-    'prix' => $request->prix,
-    'type' => $request->type,
-    'langue' => $request->langue,
-    'editeur' => $request->editeur,
-    'categorie' => $request->categorie,
-    'cover' => $coverPath,
-]);
+            $book = Book::create([
+                'designation' => $request->designation,
+                'auteur' => $request->auteur,
+                'description' => $request->description,
+                'prix' => $request->prix,
+                'type' => $request->type,
+                'langue' => $request->langue,
+                'editeur' => $request->editeur,
+                'categorie' => $request->categorie,
+                'cover' => $coverPath,
+            ]);
 
-  Log::info('book created succefully', [
-            'book_id' => $book->id,
-            'designation' => $book->designation
-        ]);
+            Log::info('book created succefully', [
+                'book_id' => $book->id,
+                'designation' => $book->designation
+            ]);
 
-        return response()->json([
-            "success" => true,
-            "message" => "book added successfully",
-            "data" => $book
-        ] , 201);
+            return response()->json([
+                "success" => true,
+                "message" => "book added successfully",
+                "data" => $book
+            ], 201);
 
-} catch(Exception $e) {
-    Log::error("failed to add  book" , [
-        ["error" => $e->getMessage()]
-    ]);
+        } catch (Exception $e) {
+            Log::error("failed to add  book", [
+                ["error" => $e->getMessage()]
+            ]);
 
-    return response()->json([
-        "success" => false,
-        "message" => "Failed to create bokk"
-    ] , 500);
-}
+            return response()->json([
+                "success" => false,
+                "message" => "Failed to create bokk"
+            ], 500);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id){
+    public function show(string $id)
+    {
         $book = Book::findOrFail($id);
 
         Log::info('API: show book', ['book_id' => $id]);
@@ -108,14 +112,14 @@ $book = Book::create([
     {
         //
 
-          Log::info("try to update");
+        Log::info("try to update");
 
         $book = Book::findOrFail($id);
-    
+
 
 
         $request->validate([
-             "designation" => 'required|string|max:255',
+            "designation" => 'required|string|max:255',
             'auteur' => 'required|string|max:255',
             'description' => 'nullable|string',
             'prix' => 'required|numeric',
@@ -128,39 +132,39 @@ $book = Book::create([
 
         try {
 
-        if ($request->hasFile('cover')) {
-            $coverPath = $request->file('cover')->store('covers', 'public');
-                Log::info("photo added succefully" , ["path" => $coverPath]);
-        } else {
-            $coverPath = 'banner1.jpg'; 
-            Log::info("show the default image");
-        }
+            if ($request->hasFile('cover')) {
+                $coverPath = $request->file('cover')->store('covers', 'public');
+                Log::info("photo added succefully", ["path" => $coverPath]);
+            } else {
+                $coverPath = 'banner1.jpg';
+                Log::info("show the default image");
+            }
 
             $book->update([
-            'designation' => $request->designation,
-            'auteur' => $request->auteur,
-            'description' => $request->description,
-            'prix' => $request->prix,
-            'type' => $request->type,
-            'langue' => $request->langue,
-            'editeur' => $request->editeur,
-            'categorie' => $request->categorie,
-            'cover' => $coverPath,
-        ]);
+                'designation' => $request->designation,
+                'auteur' => $request->auteur,
+                'description' => $request->description,
+                'prix' => $request->prix,
+                'type' => $request->type,
+                'langue' => $request->langue,
+                'editeur' => $request->editeur,
+                'categorie' => $request->categorie,
+                'cover' => $coverPath,
+            ]);
 
-        return response()->json([
-            'success' => true,
-            'data' => $book
-        ], 200);
-    } catch(Exception $e) {
-        Log::error("failed during update" , ["error" => $e->getMessage()]);
+            return response()->json([
+                'success' => true,
+                'data' => $book
+            ], 200);
+        } catch (Exception $e) {
+            Log::error("failed during update", ["error" => $e->getMessage()]);
 
-        return response()->json([
-        "success" => false,
-        "message" => "Failed to create bokk"
-    ] , 500);
+            return response()->json([
+                "success" => false,
+                "message" => "Failed to create bokk"
+            ], 500);
 
-    }
+        }
     }
 
     /**
@@ -168,30 +172,30 @@ $book = Book::create([
      */
     public function destroy(string $id)
     {
-          $book = Book::findOrFail($id);
+        $book = Book::findOrFail($id);
 
-    Log::warning("try to remove the book" , [
-        "book_id" => $book->id,
-        "cover" => $book->cover
-    ]);
+        Log::warning("try to remove the book", [
+            "book_id" => $book->id,
+            "cover" => $book->cover
+        ]);
 
-    if (
-        $book->cover &&
-        $book->cover !== 'no_cover.jpg' &&
-        Storage::disk('public')->exists($book->cover)
-    ) {
-        Storage::disk('public')->delete($book->cover);
-        Log::info("the cover deleted");
-    }
+        if (
+            $book->cover &&
+            $book->cover !== 'no_cover.jpg' &&
+            Storage::disk('public')->exists($book->cover)
+        ) {
+            Storage::disk('public')->delete($book->cover);
+            Log::info("the cover deleted");
+        }
 
 
-    $book->delete();
-      Log::info('API: book deleted', ['book_id' => $id]);
+        $book->delete();
+        Log::info('API: book deleted', ['book_id' => $id]);
 
-  return response()->json([
-        'success' => true,
-        'message' => 'Book deleted successfully'
-    ], 200);
-    
+        return response()->json([
+            'success' => true,
+            'message' => 'Book deleted successfully'
+        ], 200);
+
     }
 }
