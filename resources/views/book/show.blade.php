@@ -83,15 +83,12 @@
                             <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition duration-300 transform active:scale-95 shadow-lg shadow-blue-200">
                                 {{ __('Ajouter au panier') }}
                             </button>
-                            <button class="w-full bg-white hover:bg-gray-50 text-gray-900 font-bold py-4 px-6 rounded-xl border-2 border-gray-100 transition duration-300">
-                                {{ __('Acheter maintenant') }}
-                            </button>
-                        </div>
-
-                        <div class="mt-8 pt-6 border-t border-gray-50">
-                            <a href="{{ route('book.edit', $book->id) }}" class="block w-full text-center py-2 text-amber-600 font-semibold hover:text-amber-700 transition">
-                                {{ __('Modifier les informations') }}
-                            </a>
+                            <form action="{{ route('book.sendInfo', $book->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="w-full bg-white hover:bg-gray-50 text-gray-900 font-bold py-4 px-6 rounded-xl border-2 border-gray-100 transition duration-300">
+                                    {{ __('Recevoir les infos par email') }}
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </aside>

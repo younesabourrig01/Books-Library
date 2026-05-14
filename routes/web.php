@@ -37,6 +37,7 @@ Route::put('/books/{id}', [BookController::class, 'update'])->name('book.update'
 Route::get('/books/search', [BookController::class, 'search'])->name('search');
 //
 Route::get('/books/search/find', [BookController::class, 'find'])->name('search.find');
+Route::post('/books/{id}/send-info', [BookController::class, 'sendInfo'])->name('book.sendInfo');
 
 
 

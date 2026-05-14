@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BookData;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
@@ -182,5 +185,23 @@ class BookController extends Controller
         Log::warning('Book deleted', ['book_id' => $id]);
 
         return redirect()->route('book.index')->with('success', 'Livre supprimé avec succès.');
+    }
+
+    public function sendInfo(string $id)
+    {
+        $book = Book::with(['category', 'tag'])->findOrFail($id);
+        
+        // Get user from Auth session
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Vous devez être connecté pour recevoir les informations par email.');
+        }
+
+        Mail::to($user->email)->send(new BookData($book));
+
+        Log::info('Book info sent via email', ['book_id' => $id, 'user_id' => $user->id]);
+
+        return redirect()->back()->with('success', 'Les informations du livre ont été envoyées à votre adresse email : ' . $user->email);
     }
 }
