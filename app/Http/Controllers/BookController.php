@@ -57,11 +57,11 @@ class BookController extends Controller
         $book = new Book();
         $book->designation = $request->input('designation');
         $book->auteur = $request->input('auteur');
-        $book->editeur = $request->input('editeur');
+        $book->editeur = $request->input('editeur', 'Anonyme');
         $book->prix = $request->input('prix');
         $book->tag_id = $request->input('tag_id');
         $book->category_id = $request->input('category_id');
-        $book->description = $request->input('description');
+        $book->description = $request->input('description', '');
 
         if ($request->hasFile('cover') && $request->file('cover')->isValid()) {
             $image = $request->file('cover');
@@ -105,19 +105,23 @@ class BookController extends Controller
             'designation' => 'required|string|max:255',
             'auteur' => 'required|string|max:255',
             'prix' => 'required|numeric|min:0',
-            'type' => 'required|string|max:255',
+            'type' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $book = Book::findOrFail($id);
-        $book->designation = $request->designation;
-        $book->auteur = $request->auteur;
-        $book->editeur = $request->editeur;
-        $book->prix = $request->prix;
-        $book->tag_id = $request->tag_id;
-        $book->category_id = $request->category_id;
-        $book->description = $request->description;
+
+$book->fill($request->only([
+    'designation',
+    'auteur',
+    'prix',
+    'type',
+    'editeur',
+    'tag_id',
+    'category_id',
+]));
+$book->description = $request->input('description', $book->description);
 
         if ($request->hasFile('cover')) {
             if ($book->cover && file_exists(public_path('covers/' . $book->cover))) {

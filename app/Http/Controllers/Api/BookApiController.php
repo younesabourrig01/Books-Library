@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Exception;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class BookApiController extends Controller
 {
@@ -32,7 +33,7 @@ class BookApiController extends Controller
     public function store(Request $request)
     {
 
-        log::info("try to add a book");
+        Log::info("try to add a book");
         $request->validate([
             "designation" => 'required|string|max:255',
             'auteur' => 'required|string|max:255',
@@ -57,13 +58,13 @@ class BookApiController extends Controller
 
             $book = Book::create([
                 'designation' => $request->designation,
-                'auteur' => $request->auteur,
-                'description' => $request->description,
-                'prix' => $request->prix,
+                'auteur' => $request->input('auteur', 'Anonyme'),
+                'description' => $request->input('description', ''),
+                'prix' => $request->input('prix', 0),
                 'type' => $request->type,
-                'langue' => $request->langue,
-                'editeur' => $request->editeur,
-                'categorie' => $request->categorie,
+                'langue' => $request->input('langue', 'Francais'),
+                'editeur' => $request->input('editeur', 'Anonyme'),
+                'category_id' => $request->category_id,
                 'cover' => $coverPath,
             ]);
 
@@ -119,38 +120,28 @@ class BookApiController extends Controller
 
 
         $request->validate([
-            "designation" => 'required|string|max:255',
-            'auteur' => 'required|string|max:255',
+            "designation" => 'sometimes|string|max:255',
+            'auteur' => 'sometimes|string|max:255',
             'description' => 'nullable|string',
-            'prix' => 'required|numeric',
+            'prix' => 'sometimes|numeric',
             'type' => 'nullable|string',
             'langue' => 'nullable|string',
             'editeur' => 'nullable|string',
-            'categorie' => 'nullable|string',
+            'category_id' => 'nullable|exists:caterories,id',
             'cover' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         try {
 
+            $data = $request->only(['designation', 'auteur', 'description', 'prix', 'type', 'langue', 'editeur', 'category_id']);
+
             if ($request->hasFile('cover')) {
                 $coverPath = $request->file('cover')->store('covers', 'public');
                 Log::info("photo added succefully", ["path" => $coverPath]);
-            } else {
-                $coverPath = 'banner1.jpg';
-                Log::info("show the default image");
+                $data['cover'] = $coverPath;
             }
 
-            $book->update([
-                'designation' => $request->designation,
-                'auteur' => $request->auteur,
-                'description' => $request->description,
-                'prix' => $request->prix,
-                'type' => $request->type,
-                'langue' => $request->langue,
-                'editeur' => $request->editeur,
-                'categorie' => $request->categorie,
-                'cover' => $coverPath,
-            ]);
+            $book->update($data);
 
             return response()->json([
                 'success' => true,

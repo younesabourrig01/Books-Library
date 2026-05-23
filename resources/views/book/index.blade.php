@@ -5,7 +5,7 @@
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <a class="text-blue-600 font-semibold" href="{{ route('addBook') }}">{{ __('Créer un livre') }}</a>
-                <h2 class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">{{ __('Tous les livres') }}</h2>
+                <h2 class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">Tous les livres</h2>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
