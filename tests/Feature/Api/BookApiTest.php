@@ -7,8 +7,11 @@ use Laravel\Sanctum\Sanctum;
 
 uses(Tests\TestCase::class, RefreshDatabase::class)->group('Feature');
 
-it('can list all books via api', function () {
+beforeEach(function () {
     Sanctum::actingAs(User::factory()->create());
+});
+
+it('lists all books via api', function () {
     Book::factory()->count(3)->create();
 
     $response = $this->getJson('/api/books');
@@ -24,17 +27,13 @@ it('can list all books via api', function () {
              ]);
 });
 
-it('can store a new book via api', function () {
-    Sanctum::actingAs(User::factory()->create());
-
-    $bookData = [
+it('stores a new book via api', function () {
+    $response = $this->postJson('/api/books', [
         'designation' => 'API Book',
         'auteur'      => 'API Author',
         'prix'        => 15.50,
         'type'        => 'Fiction',
-    ];
-
-    $response = $this->postJson('/api/books', $bookData);
+    ]);
 
     $response->assertStatus(201)
              ->assertJson([
@@ -48,8 +47,7 @@ it('can store a new book via api', function () {
     ]);
 });
 
-it('can show a specific book via api', function () {
-    Sanctum::actingAs(User::factory()->create());
+it('shows a specific book via api', function () {
     $book = Book::factory()->create();
 
     $response = $this->getJson('/api/books/' . $book->id);
@@ -64,18 +62,15 @@ it('can show a specific book via api', function () {
              ]);
 });
 
-it('can update a book via api', function () {
-    Sanctum::actingAs(User::factory()->create());
+it('updates a book via api', function () {
     $book = Book::factory()->create();
 
-    $updateData = [
+    $response = $this->putJson('/api/books/' . $book->id, [
         'designation' => 'Updated API Title',
         'auteur'      => 'Updated API Author',
         'prix'        => 20.00,
         'type'        => 'Non-Fiction',
-    ];
-
-    $response = $this->putJson('/api/books/' . $book->id, $updateData);
+    ]);
 
     $response->assertStatus(200)
              ->assertJson([
@@ -92,8 +87,7 @@ it('can update a book via api', function () {
     ]);
 });
 
-it('can delete a book via api', function () {
-    Sanctum::actingAs(User::factory()->create());
+it('deletes a book via api', function () {
     $book = Book::factory()->create();
 
     $response = $this->deleteJson('/api/books/' . $book->id);

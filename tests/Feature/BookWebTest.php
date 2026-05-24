@@ -1,14 +1,11 @@
 <?php
 
 use App\Models\Book;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-uses(Tests\TestCase::class, RefreshDatabase::class)->group('Feature');
+uses(Tests\TestCase::class, RefreshDatabase::class)->group('web-crud');
 
-it('can display the index page with books', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
+it('lists books on the web page', function () {
     Book::factory()->count(2)->create();
 
     $response = $this->get('/book');
@@ -18,29 +15,21 @@ it('can display the index page with books', function () {
     $response->assertViewHas('books');
 });
 
-it('can display the create book page', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
+it('shows the create book form', function () {
     $response = $this->get(route('addBook'));
 
     $response->assertStatus(200);
     $response->assertViewIs('book.create');
 });
 
-it('can store a new book', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
-    $bookData = [
+it('stores a new book from the web form', function () {
+    $response = $this->post(route('book.store'), [
         'designation'  => 'Test Book',
         'auteur'       => 'Test Author',
         'prix'         => 19.99,
         'editeur'      => 'Test Publisher',
         'description'  => 'Test Description',
-    ];
-
-    $response = $this->post(route('book.store'), $bookData);
+    ]);
 
     $response->assertRedirect(route('book.index'));
     $response->assertSessionHas('success');
@@ -51,9 +40,7 @@ it('can store a new book', function () {
     ]);
 });
 
-it('can display the edit book page', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
+it('shows the edit book form', function () {
     $book = Book::factory()->create();
 
     $response = $this->get(route('book.edit', $book->id));
@@ -62,19 +49,15 @@ it('can display the edit book page', function () {
     $response->assertViewIs('book.edit');
 });
 
-it('can update an existing book', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
+it('updates an existing book from the web form', function () {
     $book = Book::factory()->create(['designation' => 'Old Title']);
 
-    $updateData = [
+    $response = $this->put(route('book.update', $book->id), [
         'designation' => 'New Title',
         'auteur'      => 'New Author',
         'prix'        => 25.00,
         'type'        => 'Novel',
-    ];
-
-    $response = $this->put(route('book.update', $book->id), $updateData);
+    ]);
 
     $response->assertRedirect(route('book.index'));
     $response->assertSessionHas('success');
@@ -87,9 +70,7 @@ it('can update an existing book', function () {
     ]);
 });
 
-it('can delete a book', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
+it('deletes a book from the web page', function () {
     $book = Book::factory()->create();
 
     $response = $this->delete(route('destroyBook', $book->id));
