@@ -24,6 +24,7 @@
                             </h3>
                             <p class="text-sm text-gray-600">{{ $book->auteur }}</p>
 
+                            @auth
                             <div class="flex justify-center gap-6 pt-3 border-t border-gray-100">
                                 <a href="{{ route('book.show', $book->id) }}"
                                     class="group/btn flex flex-col items-center gap-1 text-gray-600 hover:text-blue-600 transition"
@@ -68,6 +69,7 @@
                                     </button>
                                 </form>
                             </div>
+                            @endauth
                         </div>
                     </div>
                 @endforeach
